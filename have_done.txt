@@ -1,0 +1,6 @@
+add a test video file
+
+test cmd: cutting a video into a file of 20 secs
+    ffmpeg -i videos/test.mp4 -ss 0 -t 20 -strict -2  videos/first-20.mp4
+
+aac is experimental, use -strict -2 BEFORE the last argument
