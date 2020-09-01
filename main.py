@@ -1,9 +1,13 @@
 import math, argparse, ffmpeg
 import numpy as np
 
+
+
 parser = argparse.ArgumentParser(description='Cut videos')
 parser.add_argument('-src', '--source', type=str, metavar='', required=True, dest='src', help='file path')
 args = parser.parse_args()
+
+
 
 def cut_vid(src):
     # How many chunks?
@@ -12,7 +16,6 @@ def cut_vid(src):
     duration = math.ceil(float(info['duration']))
     chunks = math.ceil(duration/5)
     clen = 1        # chunk length
-    
 
     for i in range (chunks):    
                 
@@ -35,6 +38,7 @@ def cut_vid(src):
         vid = input.video.filter('scale', '-2', h) 
         ffmpeg.output(audio, vid, des, strict='experimental').run()
     
+
 
 if __name__ == '__main__':
     cut_vid(args.src)
