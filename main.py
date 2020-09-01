@@ -1,4 +1,4 @@
-import math, argparse, ffmpeg
+import math, argparse, ffmpeg, os
 import numpy as np
 
 
@@ -16,10 +16,16 @@ def cut_vid(src):
     duration = math.ceil(float(info['duration']))
     chunks = math.ceil(duration/5)
     clen = 1        # chunk length
+    
+    # create directory for cut videos, same name as the source videos
+    path = src.replace('.mp4', '/')
+    if not os.path.exists(path):
+        os.mkdir(path)
 
+    # cut video: create a name, then join video+audio
     for i in range (chunks):    
                 
-        input = ffmpeg.input('videos/test.mp4', ss=i*clen, t=clen)
+        input = ffmpeg.input(src, ss=i*clen, t=clen)
         audio = input.audio.filter('atrim')
         
         num = str(i).zfill(5)        
@@ -37,7 +43,7 @@ def cut_vid(src):
         des = src.replace('.mp4', '/' + h + '_'  + num + '.mp4')
         vid = input.video.filter('scale', '-2', h) 
         ffmpeg.output(audio, vid, des, strict='experimental').run()
-    
+
 
 
 if __name__ == '__main__':
