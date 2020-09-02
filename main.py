@@ -12,8 +12,7 @@ args = parser.parse_args()
 def cut_vid(src):
     # How many chunks?
     probe = ffmpeg.probe(src)
-    info = next(stream for stream in probe['streams'] if stream['codec_type'] == 'video')
-    duration = math.ceil(float(info['duration']))
+    duration = math.ceil(float(next(stream for stream in probe['streams'] if stream['codec_type'] == 'video')['duration']))
     chunks = math.ceil(duration/5)
     clen = 1        # chunk length
     
